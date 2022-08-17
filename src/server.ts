@@ -31,11 +31,15 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   app.get("/filteredimage", async (req, res) => {
     const {image_url} = req.query;
     if (!image_url){
-      return res.status(400).send("Invalid URL or no image URL");
+      return res.status(400)
+                .send("imaged does not exist or URL is incorrect");
     }
     filterImageFromURL(image_url).then(
-      path => {
-        res.status(200).sendFile(path, () => {deleteLocalFiles([path]);});
+      imagefilepath => {
+        res.status(200)
+            .sendFile( imagefilepath, () => { 
+                          deleteLocalFiles([imagefilepath]);
+                        });
       }
     )
   })
